@@ -36,7 +36,7 @@ def processAudioData():
     bytesToRead = 1
     count = 0
     csv_data = []
-    sendn = 5
+    sendn = 11000
     while bytesToRead != 0:
         global lastValueFromStream
         # Check whether bytes are available for reading
@@ -86,9 +86,9 @@ def processAudioData():
             csv_data.append(parse)
 
             # send request to webhook
-            response = requests.post('https://maker.ifttt.com/trigger/Player1_TT_v2/with/key/hnXromm5rMulX5fW03d7s', data={'value1': parse})
-            print(response.status_code)    # HTTPのステータスコード取得
-            print(response.text)
+            #response = requests.post('https://maker.ifttt.com/trigger/Player1_TT_v2/with/key/hnXromm5rMulX5fW03d7s', data={'value1': parse})
+            #print(response.status_code)    # HTTPのステータスコード取得
+            #print(response.text)
         with open('view_data.csv', 'w') as f:
             writer = csv.writer(f)
             writer.writerow(csv_data)
