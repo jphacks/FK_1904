@@ -1,4 +1,4 @@
-#coding:utf-8
+# coding:utf-8
 
 import math
 import wave
@@ -10,7 +10,7 @@ import requests
 import csv
 
 # Global settings of for the serial port
-comPort = "COM3"
+comPort = "/dev/ttyUSB0"
 baudrate = 1000000
 # .wav params
 nchannels = 1
