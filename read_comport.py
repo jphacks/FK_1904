@@ -10,7 +10,7 @@ import requests
 import csv
 
 # Global settings of for the serial port
-comPort = "/dev/ttyUSB0"
+comPort = "/dev/ttyACM0"
 baudrate = 1000000
 # .wav params
 nchannels = 1
