@@ -6,15 +6,22 @@ using Photon;
 using Random = UnityEngine.Random;
 using ExitGames.Client.Photon;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PhotonManager : Photon.MonoBehaviour
 {
 
+    public bool isMaster = false;
+
+    private bool connectFailed = false;
+    [SerializeField] private MenuScene menuSceneScript;
+
     void Start()
     {
-    }
-    void Update()
-    {
+        // Photonネットワークの設定を行う
+        // PhotonNetwork.ConnectUsingSettings(null);
+        // PhotonNetwork.sendRate = 30;
+        UserData.Instance.MASTER = false;
     }
 
     public void Awake()
@@ -39,44 +46,103 @@ public class PhotonManager : Photon.MonoBehaviour
         // PhotonNetwork.logLevel = NetworkLogLevel.Full;
     }
 
-
-    public void CreateRoom(string userName, int monsterId, bool isMaster)
+    // 「ロビー」に接続した際に呼ばれるコールバック
+    public void OnJoinedLobby()
     {
-        PhotonNetwork.autoCleanUpPlayerObjects = false;
-        //カスタムプロパティ
-        ExitGames.Client.Photon.Hashtable customProp = new ExitGames.Client.Photon.Hashtable();
+        Debug.Log("OnJoinedLobby");
+        PhotonNetwork.JoinRandomRoom();
+    }
 
-        customProp.Add("userName", userName); //ユーザ名
-        customProp.Add("monsterId", monsterId); //選んだモンスターの識別ID
+    // いずれかの「ルーム」への接続に失敗した際のコールバック
+    void OnPhotonRandomJoinFailed()
+    {
+        Debug.Log("OnPhotonRandomJoinFailed");
+
+        isMaster = true;
+        UserData.Instance.MASTER = true;
+
+        // ルームを作成（今回の実装では、失敗＝マスタークライアントなし、として「ルーム」を作成）
+        PhotonNetwork.autoCleanUpPlayerObjects = false;
+        // //カスタムプロパティ
+        ExitGames.Client.Photon.Hashtable customProp = new ExitGames.Client.Photon.Hashtable();
+        customProp.Add("userName", PhotonNetwork.playerName); //プレイヤー名
         customProp.Add("isMaster", isMaster); //親プレイヤーの判別
         PhotonNetwork.SetPlayerCustomProperties(customProp);
         RoomOptions roomOptions = new RoomOptions();
-        roomOptions.customRoomProperties = customProp;
-        //ロビーで見えるルーム情報としてカスタムプロパティのuserName,userIdを使いますよという宣言
-        roomOptions.customRoomPropertiesForLobby = new string[] { "userName", "monsterId", "isMaster" };
-        roomOptions.maxPlayers = 5; //部屋の最大人数
-        roomOptions.isOpen = true; //入室許可する
-        roomOptions.isVisible = true; //ロビーから見えるようにする
+        roomOptions.CustomRoomProperties = customProp;
+        // //ロビーで見えるルーム情報としてカスタムプロパティのuserName,userIdを使いますよという宣言
+        roomOptions.CustomRoomPropertiesForLobby = new string[] { "isMaster" };
+        roomOptions.MaxPlayers = 2; //部屋の最大人数
+        roomOptions.IsOpen = true; //入室許可する
+        roomOptions.IsVisible = true; //ロビーから見えるようにする
         roomOptions.PublishUserId = true;
         PhotonNetwork.CreateRoom(null, roomOptions, null);
-
+        PhotonNetwork.CreateRoom(null);
     }
 
-    public void GetRoomList()
-    {
-
-    }
+    // //部屋作成に成功したときにコール
+    // public new void OnCreatedRoom()
+    // {
+    //     Debug.Log("OnCreatedRoom");
+    // }
 
     // ルーム一覧が取れると
     void OnReceivedRoomListUpdate()
     {
+        //ルーム一覧を取る
+        RoomInfo[] rooms = PhotonNetwork.GetRoomList();
+        RoomData.Instance.roomArray = rooms;
+        if (rooms.Length == 0)
+        {
+            Debug.Log("ルームが一つもありません");
+        }
+        else
+        {
+            //ルームが1件以上ある時ループでRoomInfo情報をログ出力
+            for (int i = 0; i < rooms.Length; i++)
+            {
+                // Debug.Log("RoomName:" + rooms[i].name + ", userName:" + rooms[i].customProperties["userName"] + ", monsterId:" + rooms[i].customProperties["monsterId"]);
+            }
+        }
+    }
+
+    // Photonサーバに接続した際のコールバック
+    public void OnConnectedToPhoton()
+    {
+        Debug.Log("OnConnectedToPhoton");
+    }
+
+    // マスタークライアントに接続した際のコールバック
+    public void OnConnectedToMaster()
+    {
+        Debug.Log("OnConnectedToMaster");
+        PhotonNetwork.JoinRandomRoom();
+    }
+
+    // いずれかの「ルーム」に接続した際のコールバック
+    public void OnJoinedRoom()
+    {
+        Debug.Log("OnJoinedRoom");
+        // Debug.Log(PhotonPlayer.CustomProperties["isMaster"].ToString());
+        if (UserData.Instance.MASTER == true)
+        {
+            menuSceneScript.MakeRoomScreen.SetActive(true);
+            menuSceneScript.SelectRoomScreen.SetActive(false);
+        }
+        else
+        {
+            menuSceneScript.MakeRoomScreen.SetActive(false);
+            menuSceneScript.SelectRoomScreen.SetActive(true);
+        }
+        menuSceneScript.RawImage.SetActive(false);
+
 
     }
 
-    public void JoinRoom(string roomName, string userName, int monsterId, bool isMaster)
+    // 部屋を作れなかった時
+    public void OnPhotonCreateGameFailed()
     {
-
-
+        PhotonNetwork.JoinRandomRoom();
     }
 
     public void LeftRoom()
@@ -93,24 +159,14 @@ public class PhotonManager : Photon.MonoBehaviour
     // リモートプレイヤーが入室した際にコールされる
     public void OnPhotonPlayerConnected(PhotonPlayer player)
     {
+        Debug.Log("PhotonPlayer:" + PhotonNetwork.playerName);
+        //ローディング画面表示
 
 
     }
 
     // リモートプレイヤーが退室した際にコールされる
     public void OnPhotonPlayerDisconnected(PhotonPlayer player)
-    {
-
-    }
-
-    // ロビーに入ったタイミングでコール
-    void OnJoinedLobby()
-    {
-        Debug.Log("PhotonManager OnJoinedLobby");
-    }
-
-    //入室時にコール
-    public void OnJoinedRoom()
     {
 
     }
@@ -127,11 +183,7 @@ public class PhotonManager : Photon.MonoBehaviour
         Debug.Log("OnPhotonJoinRoomFailed got called. This can happen if the room is not existing or full or closed.");
     }
 
-    //部屋作成に成功したときにコール
-    public void OnCreatedRoom()
-    {
-        Debug.Log("OnCreatedRoom");
-    }
+
 
     //接続が切断されたときにコール
     public void OnDisconnectedFromPhoton()
@@ -142,13 +194,6 @@ public class PhotonManager : Photon.MonoBehaviour
     //接続失敗時にコール
     public void OnFailedToConnectToPhoton(object parameters)
     {
-
-    }
-
-    public void OnConnectedToMaster()
-    {
-        Debug.Log("As OnConnectedToMaster() got called, the PhotonServerSetting.AutoJoinLobby must be off. Joining lobby by calling PhotonNetwork.JoinLobby().");
-        PhotonNetwork.JoinLobby();
     }
 
 }

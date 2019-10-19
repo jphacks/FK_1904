@@ -21,7 +21,7 @@ public class TitleScrene : MonoBehaviour
 
     public void ToMenuScene()
     {
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("MenuScene");
 
     }
 
