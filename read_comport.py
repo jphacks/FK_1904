@@ -36,13 +36,14 @@ def processAudioData():
     bytesToRead = 1
     count = 0
     csv_data = []
+    sendn = 5
     while bytesToRead != 0:
         global lastValueFromStream
         # Check whether bytes are available for reading
         bytesToRead = serInstance.inWaiting()
 
         # If we have nothing to do, just leave the while loop
-        if count == 11000:
+        if count == sendn:
             wavFile.close()
             print("success")
             break
@@ -55,7 +56,7 @@ def processAudioData():
         returnedValue = returnedValue.split(b'\n')
         # Process the splitted values
         for value in returnedValue:
-            if count == 11000:
+            if count == sendn:
                 # print("pre")
                 # wavFile.close()
                 # print("after")
@@ -85,9 +86,9 @@ def processAudioData():
             csv_data.append(parse)
 
             # send request to webhook
-            # response = requests.post('https://maker.ifttt.com/trigger/Player1_TT/with/key/hnXromm5rMulX5fW03d7s', data={'value1': parse})
-            # print(response.status_code)    # HTTPのステータスコード取得
-            # print(response.text)
+            response = requests.post('https://maker.ifttt.com/trigger/Player1_TT_v2/with/key/hnXromm5rMulX5fW03d7s', data={'value1': parse})
+            print(response.status_code)    # HTTPのステータスコード取得
+            print(response.text)
         with open('view_data.csv', 'w') as f:
             writer = csv.writer(f)
             writer.writerow(csv_data)
