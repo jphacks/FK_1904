@@ -1,4 +1,4 @@
-# サンプル（プロダクト名）
+# ばとるうぇーぶ
 
 [![ばとるうぇーぶ](image.png)](https://www.youtube.com/watch?v=G5rULR53uMk)
 
