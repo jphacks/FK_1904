@@ -60,8 +60,8 @@ AR技術
 ### 独自開発技術（Hack Dayで開発したもの）
 #### 2日間に開発した独自の機能・技術
 * serialポートを用いたセンサー情報取得と他デバイスへの送信<br>
-　infineon microphoneからの取得をxmcボードによってserialポートへ出力。その出力をラズパイで取得し、IFTTT, IntegromatにPOST送信を可能にした。<br>
+　infineon microphoneからの取得をXMCボードによってserialポートへ出力。その出力をRaspberry Piで取得し、IFTTT, IntegromatにPOST送信を可能にした。<br>
 　※従来技術はserialポートからの取得、描画までであった
   commit 17245be6117899276485972265320a862da41917
-* unityによるモーション作成<br>
+* Unityによるモーション作成<br>
 　本プロダクトで用いるモーションがかなり特殊な姿勢を含むものであったであったため、配布asset等を用いるのではなく自作した。
