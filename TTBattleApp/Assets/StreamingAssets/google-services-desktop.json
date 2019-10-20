@@ -1,0 +1,37 @@
+{
+  "client": [
+    {
+      "services": {
+        "appinvite_service": {
+          "status": 1
+        }, 
+        "analytics_service": {
+          "status": 0
+        }
+      }, 
+      "oauth_client": [
+        {
+          "client_id": "813290444065-289ch1o4p6chpdk56ee5r9s2b8bocc21.apps.googleusercontent.com"
+        }
+      ], 
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzzMQXtqlccfa1QFj0EkxDrsErWp_-NG0"
+        }
+      ], 
+      "client_info": {
+        "mobilesdk_app_id": "1:813290444065:ios:4b2c47f9a5ef9f8681da60", 
+        "android_client_info": {
+          "package_name": "com.Company.ProductName"
+        }
+      }
+    }
+  ], 
+  "configuration_version": "1", 
+  "project_info": {
+    "storage_bucket": "battlewave-9320c.appspot.com", 
+    "project_id": "battlewave-9320c", 
+    "firebase_url": "https://battlewave-9320c.firebaseio.com", 
+    "project_number": "813290444065"
+  }
+}

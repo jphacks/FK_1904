@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class TT_motion : MonoBehaviour
 {
@@ -24,40 +23,6 @@ public class TT_motion : MonoBehaviour
 
     private void FixedUpdate()
     {
-        void Start()
-        {
-            StartCoroutine(GetText());
-        }
-
-        IEnumerator GetText()
-        {
-            UnityWebRequest request = UnityWebRequest.Get("https://maker.ifttt.com/trigger/Player1_TT_v2/with/key/hnXromm5rMulX5fW03d7s");
-            // 下記でも可
-            // UnityWebRequest request = new UnityWebRequest("http://example.com");
-            // methodプロパティにメソッドを渡すことで任意のメソッドを利用できるようになった
-            // request.method = UnityWebRequest.kHttpVerbGET;
-
-            // リクエスト送信
-            yield return request.Send();
-
-            // 通信エラーチェック
-            if (request.isNetworkError)
-            {
-                Debug.Log(request.error);
-            }
-            else
-            {
-                if (request.responseCode == 200)
-                {
-                    // UTF8文字列として取得する
-                    string text = request.downloadHandler.text;
-
-                    // バイナリデータとして取得する
-                    byte[] results = request.downloadHandler.data;
-                    Debug.Log(results[0]);
-                }
-            }
-        }
 
 
 
