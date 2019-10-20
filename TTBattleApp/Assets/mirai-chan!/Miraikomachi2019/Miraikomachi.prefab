@@ -7623,6 +7623,7 @@ GameObject:
   - component: {fileID: 4980110722172462}
   - component: {fileID: 95599762994168312}
   - component: {fileID: 114765392109804874}
+  - component: {fileID: 1080198137383280501}
   m_Layer: 0
   m_Name: Miraikomachi
   m_TagString: Untagged
@@ -7754,6 +7755,18 @@ MonoBehaviour:
   collisionColor: {r: 1, g: 0, b: 0, a: 1}
   groundCollisionColor: {r: 0, g: 1, b: 0, a: 1}
   angleLimitDrawScale: 0.05
+--- !u!114 &1080198137383280501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1732310681135986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8d0ca8de5aaa4c90820cfede5dd9ec1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1733164735474188
 GameObject:
   m_ObjectHideFlags: 0

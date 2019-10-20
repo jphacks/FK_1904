@@ -136,7 +136,7 @@ public class PhotonManager : Photon.MonoBehaviour
             menuSceneScript.SelectRoomScreen.SetActive(true);
         }
         menuSceneScript.RawImage.SetActive(false);
-        SceneManager.LoadScene("BattleScene");
+        SceneManager.LoadScene("BattleSceneYamada");
 
 
     }

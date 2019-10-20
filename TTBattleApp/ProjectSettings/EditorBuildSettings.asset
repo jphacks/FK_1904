@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MenuScene.unity
     guid: 04ff15dc18d314391839039d97a02205
+  - enabled: 1
+    path: Assets/Scenes/BattleSceneYamada.unity
+    guid: 3fb096d71ac684ddf95e1707e7a5a105
   m_configObjects: {}
