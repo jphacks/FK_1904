@@ -4,9 +4,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
+using UnityEditor;
 
 public class TitleScrene : MonoBehaviour
 {
+    AudioSource audioSource;
+    public AudioClip push_next;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +27,8 @@ public class TitleScrene : MonoBehaviour
 
     public void ToMenuScene()
     {
+        // ボタン選択時の効果音
+        // audioSource.PlayOneShot(push_next);
         SceneManager.LoadScene("MenuScene");
 
     }

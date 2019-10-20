@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 using ExitGames.Client.Photon;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class PhotonManager : Photon.MonoBehaviour
 {
@@ -135,6 +136,7 @@ public class PhotonManager : Photon.MonoBehaviour
             menuSceneScript.SelectRoomScreen.SetActive(true);
         }
         menuSceneScript.RawImage.SetActive(false);
+        SceneManager.LoadScene("BattleScene");
 
 
     }

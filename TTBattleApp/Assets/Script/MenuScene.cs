@@ -14,6 +14,12 @@ public class MenuScene : MonoBehaviour
     public GameObject MakeRoomScreen;
     public GameObject RawImage;
 
+    // オーディオの関連付け
+    AudioSource audioSource;
+    public GameObject SE_AudioObject;
+    public AudioClip push_next;
+
+
 
     [SerializeField] private PhotonManager photonManager;
 
@@ -22,18 +28,7 @@ public class MenuScene : MonoBehaviour
     {
 
         RawImage.SetActive(true);
-
-        // if (UserData.Instance.MASTER == true)
-        // {
-        //     MakeRoomScreen.SetActive(true);
-        //     SelectRoomScreen.SetActive(false);
-        // }
-        // else
-        // {
-        //     MakeRoomScreen.SetActive(false);
-        //     SelectRoomScreen.SetActive(true);
-        // }
-
+        audioSource = SE_AudioObject.GetComponent<AudioSource>();
 
     }
 
@@ -47,5 +42,10 @@ public class MenuScene : MonoBehaviour
     void Awake()
     {
         // PhotonPlayer
+    }
+
+    public void BattleStart()
+    {
+        SceneManager.LoadScene("BattleScene");
     }
 }
