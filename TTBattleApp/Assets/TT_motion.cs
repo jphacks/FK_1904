@@ -34,7 +34,7 @@ public class TT_motion : MonoBehaviour
             Rigidbody rb = this.GetComponent<Rigidbody>();
             int push_x = Random.Range(0, 40);
             int push_z = Random.Range(-40, 40);
-            //Debug.LogFormat("Player1 :: x座標:{0}, z座標:{1}", push_x, push_z);
+            Debug.LogFormat("Player1 :: x座標:{0}, z座標:{1}", push_x, push_z);
             Vector3 force = new Vector3(0.0f, -10.0f, 0.0f);
             Vector3 pos = new Vector3(push_x, 3.1f, push_z);
             rb.AddForceAtPosition(force, pos, ForceMode.Impulse);
@@ -49,7 +49,7 @@ public class TT_motion : MonoBehaviour
             Rigidbody rb = this.GetComponent<Rigidbody>();
             int push_x = Random.Range(-40, 0);
             int push_z = Random.Range(-40, 40);
-            //Debug.LogFormat("Player2 :: x座標:{0}, z座標:{1}", push_x, push_z);
+            Debug.LogFormat("Player2 :: x座標:{0}, z座標:{1}", push_x, push_z);
             Vector3 force = new Vector3(0.0f, -10.0f, 0.0f);
             Vector3 pos = new Vector3(push_x, 3.1f, push_z);
             rb.AddForceAtPosition(force, pos, ForceMode.Impulse);
