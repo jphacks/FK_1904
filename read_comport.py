@@ -88,9 +88,9 @@ def processAudioData():
             #response = requests.post('https://maker.ifttt.com/trigger/Player1_TT_v2/with/key/hnXromm5rMulX5fW03d7s', data={'value1': parse})
             #print(response.status_code)    # HTTPのステータスコード取得
             #print(response.text)
-        with open('view_data.csv', 'w') as f:
-            writer = csv.writer(f)
-            writer.writerow(csv_data)
+       # with open('view_data.csv', 'w') as f:
+       #     writer = csv.writer(f)
+       #     writer.writerow(csv_data)
     return 
 
 if __name__ == '__main__':
