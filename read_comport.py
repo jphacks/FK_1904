@@ -80,11 +80,10 @@ def processAudioData():
             parse = int(float((float(integer)/524288)*(2147483647)))
             # Write the values to the wave file
             wavFile.writeframes(struct.pack('i', parse))
-            # print(parse)
-            print("test")
+            print("magnitude", parse)
+            # print("test")
             count += 1
             csv_data.append(parse)
-
             # send request to webhook
             #response = requests.post('https://maker.ifttt.com/trigger/Player1_TT_v2/with/key/hnXromm5rMulX5fW03d7s', data={'value1': parse})
             #print(response.status_code)    # HTTPのステータスコード取得
