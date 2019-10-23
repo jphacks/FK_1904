@@ -61,6 +61,7 @@
  [infineon microphone(Sponsor提供)](https://www.infineon.com/cms/jp/product/sensor/mems-microphones/)の値を [XMCボード](https://www.infineon.com/cms/en/product/evaluation-boards/kit_xmc_2go_xmc1100_v1/)のserialポートへ出力. その出力をRaspberry Piで取得し, IFTTT, IntegromatにPOST送信を可能にした. <br>
  ※ 従来技術はserialポートからの取得, 描画までだった.
 
+![シグナル](Images/signal_photo.png)
 
 * 3Dモデルのモーション作成<br>
  本プロダクトで用いるモーションは配布assetにはない姿勢だったため自作した.
