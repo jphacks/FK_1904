@@ -3,7 +3,7 @@ import random
 import time
 
 
-HOST = '192.168.2.100'
+HOST = '192.168.2.100' #distination
 PORT = 50007
 
 client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
