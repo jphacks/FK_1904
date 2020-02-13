@@ -8,6 +8,8 @@ import threading
 import serial
 import requests
 import csv
+import socket
+
 
 # Global settings of for the serial port
 comPort = "/dev/ttyACM0"
@@ -27,23 +29,34 @@ wavFile.setparams((nchannels, sampwidth, sampleRate, nframes, comptype, compname
 serInstance = serial.Serial(comPort, baudrate, timeout=0)
 # Buffer the last value in case of data dropping​
 lastValueFromStream = b''
+
+
 print("pretend")
+numList = [0] * 10
 
 def processAudioData():
+    HOST0 = '192.168.1.89'#こーた
+    #HOST1 = '192.168.1.65'#山田
+    sendFlag = False
+
+    PORT = 50007
+    client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sleepTime = 0.1
     # Create a byte object for storing the returned values from the serial port
     returnedValue = b''
     # Variable to store the available bytes from the serial buffer
     bytesToRead = 1
     count = 0
     csv_data = []
-    sendn = 11000
+    sendn = 600
+    sendCount = 0#送った回数
     while bytesToRead != 0:
         global lastValueFromStream
         # Check whether bytes are available for reading
         bytesToRead = serInstance.inWaiting()
 
         # If we have nothing to do, just leave the while loop
-        if count == sendn:
+        if count == sendn:#countがsendn(11000)の時、breakして終了
             wavFile.close()
             print("success")
             break
@@ -57,11 +70,8 @@ def processAudioData():
         # Process the splitted values
         for value in returnedValue:
             if count == sendn:
-                # print("pre")
-                # wavFile.close()
-                # print("after")
                 break
-    
+            start = time.time()
             # We send three bytes - if we receive less or more, we drop the result
             if len(value) != 3:
                 #continue
@@ -77,26 +87,34 @@ def processAudioData():
 
             # Parse the integer to a signed 32 bit value with maximum value of +/-2^31-1 = 2147483647
             # Note that there is an error of +/- 1 due to asymmetric max. values
-            parse = int(float((float(integer)/524288)*(2147483647)))
+            parse = int(float((float(integer)/524288))*(2147483647))
             # Write the values to the wave file
             wavFile.writeframes(struct.pack('i', parse))
-            print("magnitude", parse)
-            # print("test")
-            count += 1
+            print(parse)
+            parseSTR = str(abs(parse))[0]
+            numList[int(str(abs(parse))[0])] += 1
+            client.sendto(parseSTR.encode('utf-8'), (HOST0, PORT))
+            print("{:}回目, send Magnitude = {:}".format(count, parseSTR))
+            time.sleep(sleepTime)
             csv_data.append(parse)
+            count += 1
+
             # send request to webhook
-            #response = requests.post('https://maker.ifttt.com/trigger/Player1_TT_v2/with/key/hnXromm5rMulX5fW03d7s', data={'value1': parse})
-            #print(response.status_code)    # HTTPのステータスコード取得
-            #print(response.text)
-       # with open('view_data.csv', 'w') as f:
-       #     writer = csv.writer(f)
-       #     writer.writerow(csv_data)
+            # response = requests.post('https://maker.ifttt.com/trigger/Player1_TT_v2/with/key/hnXromm5rMulX5fW03d7s', data={'value1': parse})
+
+            # print(response.status_code)    # HTTPのステータスコード取得
+            # print(response.text)
+
+        with open('view_data.csv', 'a') as f:
+            writer = csv.writer(f)
+            writer.writerow(csv_data)
     return 
 
 if __name__ == '__main__':
+    start = time.time()
     while True:
         processAudioData()
         break
     serInstance.close()
-
-
+    print(numList)
+    print("elapsed_time = ", time.time() - start)
